@@ -1,3 +1,12 @@
+"""
+Program Name: Alien Invasion Settings Configuration
+Author: Hriday Vermani
+Purpose: Manages/stores all important game settings for ships,bullets,hud, and aliens
+Starter Code: Cloned from https://github.com/hridayv-cmd/alien_invasion_starter_game.git
+Date: July 24 2026
+"""
+
+
 from pathlib import Path
 class Settings:
     """A class to store all static configuration settings for the game."""

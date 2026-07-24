@@ -1,3 +1,14 @@
+"""
+Program Name: Alien Invasion - Laser Bullet Sprite
+Author: Hriday Vermani
+Purpose: Handles individual laser projectile generation, rotation transformations, 
+         and horizontal coordinate positioning loops.
+Starter Code: Cloned from https://github.com/hridayv-cmd/alien_invasion_starter_game.git
+Date: July 2026
+"""
+
+
+
 import pygame
 from pygame.sprite import Sprite
 from typing import TYPE_CHECKING
@@ -8,7 +19,7 @@ if TYPE_CHECKING:
 
 
 class Bullet(Sprite):
-    """A class to manage laser bullets fired from the player's ship."""
+    """A class to manage laser bullets fired horizontally from the player's ship."""
     def __init__(self, game: 'AlienInvasion'):
         """Initialize the bullet sprite and set its starting position."""
         super().__init__()

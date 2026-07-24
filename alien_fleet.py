@@ -1,3 +1,12 @@
+"""
+Program Name: Alien Invasion - Alien Fleet Manager
+Author: Hriday Vermani
+Purpose: Calculates structural offsets to generate a grid matrix of enemies, 
+         controls uniform fleet movement directions, and registers multi-sprite laser hits.
+Starter Code: Cloned from https://github.com/hridayv-cmd/alien_invasion_starter_game.git
+Date: July 24 2026
+"""
+
 import pygame 
 from alien import Alien
 from typing import TYPE_CHECKING

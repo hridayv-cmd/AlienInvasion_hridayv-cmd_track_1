@@ -1,3 +1,12 @@
+"""
+Program Name: Alien Invasion - Main Game Engine
+Author: Hriday Vermani
+Purpose: Coordinates the central Pygame loop, main window surfaces, event processing, 
+         audio engine playback, and frame updates.
+Starter Code: Cloned from https://github.com/hridayv-cmd/alien_invasion_starter_game.git
+Date: July 24 2026
+"""
+
 import sys
 import pygame
 from settings import Settings

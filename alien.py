@@ -1,3 +1,13 @@
+"""
+Program Name: Alien Invasion - Alien Enemy Unit
+Author: Hriday Vermani
+Purpose: Tracks mathematical vectors, graphics loading, and collision borders 
+         for an individual invader unit.
+Starter Code: Cloned from https://github.com/hridayv-cmd/alien_invasion_starter_game.git
+Date: July 24 2026
+"""
+
+
 import pygame
 from pygame.sprite import Sprite
 from typing import TYPE_CHECKING

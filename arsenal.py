@@ -1,3 +1,13 @@
+"""
+Program Name: Alien Invasion - Weapon Arsenal System
+Author: Hriday Vermani
+Purpose: Controls active bullet sprite groups, firing rate restrictions, 
+         and automatic right side screen boundary memory purges.
+Starter Code: Cloned from https://github.com/hridayv-cmd/alien_invasion_starter_game.git
+Date: July 2026
+"""
+
+
 import pygame
 from bullet import Bullet
 from typing import TYPE_CHECKING
@@ -8,7 +18,7 @@ if TYPE_CHECKING:
     
 
 class Arsenal:
-    """Manages the ship's weapons, bullet limits, and screen cleanup."""
+    """Manages the ship's horizontal weapons systems, projectile capacity, and off-screen optimization."""
     def __init__(self, game: 'AlienInvasion'):
         """Initialize settings and create a group to store active bullets."""
         self.game = game
