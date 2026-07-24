@@ -1,3 +1,14 @@
+
+"""
+Program Name: Alien Invasion - Player Ship Controller
+Author: Hriday Vermani
+Purpose: Dictates player ship dimensions, asset transformation rotation rules, 
+         and vertical boundary checks along the left screen border.
+Starter Code: Cloned from https://github.com/hridayv-cmd/alien_invasion_starter_game.git
+Date: July 24 2026
+"""
+
+
 import pygame
 from typing import TYPE_CHECKING
 
@@ -7,7 +18,7 @@ if TYPE_CHECKING:
     from arsenal import Arsenal
 
 class Ship:
-    """Manages player ship behavior, movement, rendering, and firing."""
+    """Manages player ship behavior, movement, rendering, and firing along the vertical axis."""
 
     def __init__(self, game: 'AlienInvasion', arsenal: 'Arsenal'):
         """Initialize the ship and set its starting position at bottom-center."""
@@ -19,22 +30,24 @@ class Ship:
         # Load and scale the player ship image
         self.image = pygame.image.load(self.settings.ship_file)
         self.image = pygame.transform.scale(self.image,
-            (self.settings.ship_w, self.settings.ship_h) 
+            (self.settings.ship_h, self.settings.ship_w) 
             )
+        self.image = pygame.transform.rotate(self.image, -90)
+
         
         # Initialize placement properties
         self.rect = self.image.get_rect()
         self._center_ship()
 
         # Movement flags to track ongoing key presses
-        self.moving_right = False
-        self.moving_left  = False
+        self.moving_up = False
+        self.moving_down  = False
         self.arsenal = arsenal
 
     def _center_ship(self):
         """Reset the ship back to its starting bottom-center coordinate position."""
-        self.rect.midbottom = self.boundaries.midbottom
-        self.x = float(self.rect.x)     # Track precise decimal position for horizontal tracking
+        self.rect.midleft = self.boundaries.midleft
+        self.y = float(self.rect.y)     # Track precise decimal position for horizontal tracking
 
     def update(self):
         """Update the ship's position and manage weapon cooling/updates."""
@@ -46,15 +59,15 @@ class Ship:
         temp_speed = self.settings.ship_speed
         
         # Move right if flag is active and ship hasn't hit the right boundary
-        if self.moving_right and self.rect.right < self.boundaries.right:
-            self.x += temp_speed
+        if self.moving_up and self.rect.top > self.boundaries.top:
+            self.y -= temp_speed
 
             # Move left if flag is active and ship hasn't hit the left boundary
-        if self.moving_left and self.rect.left > self.boundaries.left:
-            self.x -= temp_speed
+        if self.moving_down and self.rect.bottom < self.boundaries.bottom:
+            self.y += temp_speed
 
         # Sync the structural layout rect position with the floating mathematical variable
-        self.rect.x = self.x
+        self.rect.y = self.y
 
 
     def draw(self) -> None:

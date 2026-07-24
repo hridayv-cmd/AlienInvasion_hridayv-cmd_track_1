@@ -28,6 +28,8 @@ class HUD:
         self.life_image = pygame.transform.scale(self.life_image, (
             self.settings.ship_w, self.settings.ship_h
             ))
+        # Add this line right after you scale self.life_image:
+        self.life_image = pygame.transform.rotate(self.life_image, -90)
         self.life_rect = self.life_image.get_rect()
 
     

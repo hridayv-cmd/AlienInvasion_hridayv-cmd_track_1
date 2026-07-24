@@ -17,23 +17,24 @@ class Bullet(Sprite):
         self.settings = game.settings
 
         # Load the bullet graphic and scale it to the size specified in settings
-        self.image = pygame.image.load(self.settings.bullet_file)
-        self.image = pygame.transform.scale(self.image,
+        base_image = pygame.image.load(self.settings.bullet_file)
+        rotated_image = pygame.transform.rotate(base_image, -90)
+        self.image = pygame.transform.scale(rotated_image,
             (self.settings.bullet_w, self.settings.bullet_h) 
             )
         
         # Position the bullet at the top-middle of the ship
         self.rect = self.image.get_rect()
-        self.rect.midtop = game.ship.rect.midtop
-        self.rect.y -= 50
+        self.rect.midright = game.ship.rect.midright
+        self.rect.x += 15
         # Store a decimal value for precise vertical movement tracking
-        self.y = float(self.rect.y)
+        self.x = float(self.rect.x)
 
 
     def update(self):
         """Move the bullet vertically up the screen."""
-        self.y -= self.settings.bullet_speed
-        self.rect.y = self.y
+        self.x += self.settings.bullet_speed
+        self.rect.x = self.x
 
     def draw_bullet(self):
         """Draw the bullet image on the screen at its current position."""

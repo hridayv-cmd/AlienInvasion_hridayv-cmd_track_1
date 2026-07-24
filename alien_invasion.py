@@ -65,8 +65,8 @@ class AlienInvasion:
             self._check_events()  # Look for player inputs (keys)
             if self.game_active: 
                 self.ship.update()          # Calculate ship movement
-                self.alien_fleet.update_fleet()         # Update the position and movement of the alien(s)
-                self._check_collisions()      
+                #self.alien_fleet.update_fleet()         # Update the position and movement of the alien(s)
+                #self._check_collisions()      
             self._update_screen()       # Render everything onto the screen
             self.clock.tick(self.settings.FPS)
 
@@ -133,9 +133,9 @@ class AlienInvasion:
         """Redraw all game objects and refresh the display screen."""
         self.screen.blit(self.bg,(0,0))   # Draw background
         self.ship.draw()                  # Draw Ship
-        self.alien_fleet.draw()           # Draw Alien
+        #self.alien_fleet.draw()           # Draw Alien
         self.ship.arsenal.draw()          # Show any active lasers
-        self.HUD.draw()                   # Draw Hud
+        #self.HUD.draw()                   # Draw Hud
 
 
         if not self.game_active:
@@ -166,17 +166,17 @@ class AlienInvasion:
 
     def _check_keyup_event(self, event) -> None:
         """Handle key releases to halt responsive player actions."""
-        if event.key == pygame.K_RIGHT:
-            self.ship.moving_right = False
-        elif event.key == pygame.K_LEFT:
-            self.ship.moving_left = False
+        if event.key in (pygame.K_UP, pygame.K_w):
+            self.ship.moving_up = False
+        elif event.key in (pygame.K_DOWN, pygame.K_s):
+            self.ship.moving_down = False
 
     def _check_keydown_event(self, event) -> None:
         """Handle key pressures to trigger responsive player actions."""
-        if event.key == pygame.K_RIGHT:
-            self.ship.moving_right = True
-        elif event.key == pygame.K_LEFT:
-            self.ship.moving_left = True
+        if event.key in (pygame.K_UP, pygame.K_w):
+            self.ship.moving_up = True
+        elif event.key in (pygame.K_DOWN, pygame.K_s):
+            self.ship.moving_down = True
         elif event.key == pygame.K_SPACE:
             if self.ship.fire():
                 self.laser_sound.play()

@@ -26,7 +26,7 @@ class Arsenal:
     def _remove_bullets_offscreen(self) -> None:
         """Delete off-screen bullets to save system memory and maintain performance."""
         for bullet in self.arsenal.copy():
-            if bullet.rect.bottom <= 0:
+            if bullet.rect.left >= self.settings.screen_w:
                 self.arsenal.remove(bullet)
 
     def draw(self) -> None:
