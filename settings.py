@@ -18,7 +18,7 @@ class Settings:
         self.screen_h = 800
         self.FPS = 60
         self.bg_file = Path.cwd() / 'Assets' / 'images' / 'Starbasesnow.png'
-        self.difficulty_scale = 1.1
+        self.difficulty_scale = 1.20
         self.scores_file = Path.cwd() / 'Assets' / 'file' / 'scores.json'
 
         # Player ship settings
@@ -62,9 +62,9 @@ class Settings:
         self.bullet_speed = 7
         self.bullet_amount = 5
 
-        self.alien_speed_x = 2.0      # Speed moving LEFT toward the player ship
-        self.alien_speed_y = 2.0      # Speed shifting UP/DOWN along the right edge
-        self.fleet_drop_speed = 30    # Pushes the fleet closer to the ship (LEFT) on edge hit
+        self.alien_speed_x = 1.0     # Speed moving LEFT toward the player ship
+        self.alien_speed_y = 1.0      # Speed shifting UP/DOWN along the right edge
+        self.fleet_drop_speed = 25    # Pushes the fleet closer to the ship (LEFT) on edge hit
         self.alien_points = 50
 
 

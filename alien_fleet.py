@@ -61,43 +61,26 @@ class AlienFleet:
                 self._create_alien(current_x, current_y)
 
     def calculate_offsets(self, alien_w, alien_h, screen_w, fleet_w, fleet_h):
-        """Calculate the top-left offset values required to perfectly center the fleet grid."""
-        half_screen = self.settings.screen_h//2
-
-
-        # Center the fleet horizontally and vertically on the screen
-        fleet_horizontal_space = fleet_w * alien_w
+        """Calculate the top-left offset values required to position the fleet along the right screen wall."""
+        # Align rows vertically centered on the screen height
         fleet_vertical_space = fleet_h * alien_h
+        y_offset = int((self.settings.screen_h - fleet_vertical_space) // 2)
 
-        # Split remaining empty space evenly for margins
-        x_offset = int((screen_w-fleet_horizontal_space)//2)
-        y_offset = int((half_screen-fleet_vertical_space)//2)
-        return x_offset,y_offset
+        # Force columns to start rendering strictly on the right side of the screen
+        x_offset = int(screen_w - (fleet_w * alien_w) - 50) 
+        
+        return x_offset, y_offset
 
 
 
     def calculate_fleet_size(self, alien_w, screen_w, alien_h, screen_h):
-        """Determine maximum column and row capacities based on asset size metrics."""
-        fleet_w = (screen_w//alien_w)
-        fleet_h = ((screen_h /2)//alien_h)
+        """Determine maximum column and row capacities for a right-side vertical fleet."""
+        # Restrict the fleet columns so they only occupy the right 1/3 of the screen width
+        fleet_w = int((screen_w // 3) // alien_w)
+        # Allow rows to fill most of the screen height
+        fleet_h = int((screen_h * 0.7) // alien_h)
 
-        # Ensure grid widths balance properly on margins
-        if fleet_w % 2 == 0:
-            fleet_w -= 1
-        else:
-            fleet_w -= 2
-
-
-        # Ensure grid heights balance properly on margins
-        if fleet_h % 2 == 0:
-            fleet_h -= 1
-        else:
-            fleet_h -= 2
-
-
-    
-
-        return int(fleet_w), int(fleet_h)
+        return fleet_w, fleet_h
     
 
     def _create_alien(self, current_x: int, current_y: int):
@@ -117,14 +100,19 @@ class AlienFleet:
 
 
     def _drop_alien_fleet(self):
-        """Shift every alien downwards on the Y-axis when an edge bounce triggers."""
+        """Shift every alien leftwards on the X-axis when an edge bounce triggers."""
         for alien in self.fleet:
-            alien.y += self.fleet_drop_speed
+            alien.x -= self.fleet_drop_speed
 
 
     def update_fleet(self):
         """Handle boundary evaluations and progress positional steps for all units."""
         self._check_fleet_edges()
+        
+        # Apply vertical movement to each alien based on current speed and direction
+        for alien in self.fleet:
+            alien.y += self.settings.alien_speed_y * self.fleet_direction
+            
         self.fleet.update()
 
     def draw(self):
@@ -138,11 +126,11 @@ class AlienFleet:
         """Detect and process overlap hits between fleet members and lasers."""
         return pygame.sprite.groupcollide(self.fleet, other_group, True, True)
     
-    def check_fleet_bottom(self):
-        """Evaluate if any fleet elements have reached or passed the player boundary line."""
+    def check_fleet_left(self):
+        """Evaluate if any fleet elements have reached or passed the player's left boundary wall."""
         alien: Alien
         for alien in self.fleet:
-            if alien.rect.bottom >= self.settings.screen_h:
+            if alien.rect.left <= 0:
                 return True
         return False
     

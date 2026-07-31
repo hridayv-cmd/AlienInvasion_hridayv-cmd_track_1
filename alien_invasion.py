@@ -74,20 +74,19 @@ class AlienInvasion:
             self._check_events()  # Look for player inputs (keys)
             if self.game_active: 
                 self.ship.update()          # Calculate ship movement
-                #self.alien_fleet.update_fleet()         # Update the position and movement of the alien(s)
-                #self._check_collisions()      
+                self.alien_fleet.update_fleet()         # Update the position and movement of the alien(s)
+                self._check_collisions()      
             self._update_screen()       # Render everything onto the screen
             self.clock.tick(self.settings.FPS)
 
     def _check_collisions(self):
         """Monitor and resolve all game element overlap intersections."""
-        #check collisions for ship
-        if self.ship.check_collisions(self.alien_fleet.fleet):
-            self._check_game_status()
-           #subtract one life is possible
+        if self.alien_fleet.check_destroy_status():
+            self._reset_level()
+            self.settings.increase_difficulty()
         
         #check collisions for aliens and bottom of screen
-        if self.alien_fleet.check_fleet_bottom():
+        if self.alien_fleet.check_fleet_left():
             self._check_game_status()
 
         # check collisions of projectiles and aliens
@@ -97,6 +96,15 @@ class AlienInvasion:
             self.impact_sound.fadeout(500)
             self.game_stats.update(collisions)
             self.HUD.update_scores()
+
+        # Only check if the wave is cleared if the player didn't just lose the game/life
+        if self.game_active and self.alien_fleet.check_destroy_status():
+            self._reset_level()
+            self.settings.increase_difficulty()
+            # Update game stats level
+            self.game_stats.update_level()
+            # Update Hud View
+            self.HUD.update_level()
 
 
         # Reset and advance the layer if the current wave is fully eliminated
@@ -119,6 +127,9 @@ class AlienInvasion:
             sleep(0.5) # Pause briefly so player notices the hit reset
         else:
             self.game_active = False
+            # Clean up the board on Game Over so the next game starts fresh
+            self.ship.arsenal.arsenal.empty()
+            self.alien_fleet.fleet.empty()
 
       
         
@@ -132,6 +143,11 @@ class AlienInvasion:
     def restart_game(self):
         self.settings.initialize_dynamic_settings()
         self.game_stats.reset_stats()
+        
+        # Explicitly force the level back to 1 on a fresh restart
+        self.game_stats.level = 1
+        self.HUD.update_level()
+        
         self.HUD.update_scores()
         self._reset_level()
         self.ship._center_ship()
@@ -142,9 +158,9 @@ class AlienInvasion:
         """Redraw all game objects and refresh the display screen."""
         self.screen.blit(self.bg,(0,0))   # Draw background
         self.ship.draw()                  # Draw Ship
-        #self.alien_fleet.draw()           # Draw Alien
+        self.alien_fleet.draw()           # Draw Alien
         self.ship.arsenal.draw()          # Show any active lasers
-        #self.HUD.draw()                   # Draw Hud
+        self.HUD.draw()                   # Draw Hud
 
 
         if not self.game_active:
