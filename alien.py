@@ -37,6 +37,7 @@ class Alien(Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
+
         
         # Store precise decimal values for granular movement tracking vectors
         self.y = float(self.rect.y)
@@ -44,22 +45,21 @@ class Alien(Sprite):
 
 
     def update(self):
-        """Advance the horizontal movement step of the alien across frames."""
-        temp_speed = self.settings.fleet_speed
-
-
-       # Shift positioning coordinates depending on fleet global tracking state
-        self.x += temp_speed * self.fleet.fleet_direction
-
-        # Update actual drawing hitbox components
+        """Move the alien horizontally left towards the player's ship."""
+        self.x -= self.settings.alien_speed_x
         self.rect.x = self.x
+
+        # Keep the drawing hitbox vertically aligned with its self.y coordinate
         self.rect.y = self.y
+
+
+
 
 
     
     def check_edges(self):
         """Return True if the element boundary overlaps or collides with the screen frame boundaries."""
-        return (self.rect.right >= self.boundaries.right or self.rect.left <= self.boundaries.left)
+        return (self.rect.bottom >= self.screen.get_rect().bottom) or (self.rect.top <= self.screen.get_rect().top)
 
 
     def draw_alien(self):

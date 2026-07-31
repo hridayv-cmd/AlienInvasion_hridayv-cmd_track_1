@@ -38,7 +38,7 @@ class Settings:
         self.alien_file = Path.cwd() / 'Assets' / 'Images' / 'enemy_4.png'
         self.alien_w = 40
         self.alien_h = 40
-        self.fleet_direction = 1        # 1 represents moving right; -1 represents moving left          
+        self.fleet_direction = 1   # 1 represents moving DOWN; -1 represents moving UP
         # How far down the screen the alien drops when hitting a wall
 
 
@@ -54,7 +54,7 @@ class Settings:
         self.font_file = Path.cwd() / 'Assets' / 'Fonts' / 'Silkscreen' / 'Silkscreen-Bold.ttf'
 
     def initialize_dynamic_settings(self):
-        self.ship_speed = 5
+        self.ship_speed = 7
         self.starting_ship_count = 3
 
         self.bullet_w = 80
@@ -62,13 +62,16 @@ class Settings:
         self.bullet_speed = 7
         self.bullet_amount = 5
 
-        self.fleet_speed = 2
-        self.fleet_drop_speed = 40 
+        self.alien_speed_x = 2.0      # Speed moving LEFT toward the player ship
+        self.alien_speed_y = 2.0      # Speed shifting UP/DOWN along the right edge
+        self.fleet_drop_speed = 30    # Pushes the fleet closer to the ship (LEFT) on edge hit
         self.alien_points = 50
 
 
     def increase_difficulty(self):
         self.ship_speed *= self.difficulty_scale
         self.bullet_speed *= self.difficulty_scale
-        self.fleet_speed *= self.difficulty_scale
+        self.alien_speed_x *= self.difficulty_scale
+        self.alien_speed_y *= self.difficulty_scale
+    
    
