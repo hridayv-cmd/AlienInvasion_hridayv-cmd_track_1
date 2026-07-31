@@ -44,7 +44,7 @@ class AlienInvasion:
         
         # Flag to manage the game state loop and set frame rate clock
         self.game_stats = GameStats(self)
-        self.HUD = HUD(self)    
+        #self.HUD = HUD(self)    
         self.running = True
         self.clock = pygame.time.Clock()
 
@@ -95,7 +95,7 @@ class AlienInvasion:
             self.impact_sound.play()
             self.impact_sound.fadeout(500)
             self.game_stats.update(collisions)
-            self.HUD.update_scores()
+            #self.HUD.update_scores()
 
         # Only check if the wave is cleared if the player didn't just lose the game/life
         if self.game_active and self.alien_fleet.check_destroy_status():
@@ -104,7 +104,7 @@ class AlienInvasion:
             # Update game stats level
             self.game_stats.update_level()
             # Update Hud View
-            self.HUD.update_level()
+            #self.HUD.update_level()
 
 
         # Reset and advance the layer if the current wave is fully eliminated
@@ -114,7 +114,7 @@ class AlienInvasion:
             # Update game stats level
             self.game_stats.update_level()
             # Update Hud View
-            self.HUD.update_level()
+            #self.HUD.update_level()
             
         
 
@@ -148,9 +148,9 @@ class AlienInvasion:
         
         # Explicitly force the level back to 1 on a fresh restart
         self.game_stats.level = 1
-        self.HUD.update_level()
+        #self.HUD.update_level()
         
-        self.HUD.update_scores()
+        #self.HUD.update_scores()
         self._reset_level()
         self.ship._center_ship()
         self.game_active = True
@@ -162,7 +162,7 @@ class AlienInvasion:
         self.ship.draw()                  # Draw Ship
         self.alien_fleet.draw()           # Draw Alien
         self.ship.arsenal.draw()          # Show any active lasers
-        self.HUD.draw()                   # Draw Hud
+        #self.HUD.draw()                   # Draw Hud
 
 
         if not self.game_active:
