@@ -45,13 +45,9 @@ class HUD:
 
         # Adjust proportions to match current game requirements
         self.life_image = pygame.image.load(self.settings.ship_file)
-        self.life_image = pygame.transform.scale(self.life_image, (
-            self.settings.ship_w, self.settings.ship_h
-            ))
-
-        
-       # Rotate the life indicator icon -90 degrees to point right, matching the player's active ship
-        self.life_image = pygame.transform.rotate(self.life_image, -90)
+        self.life_image = pygame.transform.scale(self.life_image, (30, 30))
+        # Rotate the life indicator icon -90 degrees to point right, matching the player's active ship
+        self.life_image = pygame.transform.rotate(self.life_image, 270)
         self.life_rect = self.life_image.get_rect()
 
     
@@ -59,9 +55,9 @@ class HUD:
 
     def update_scores(self):
         """Trigger update updates across all system score categories."""
+        self._update_max_score()
         self._update_score()
         self._update_hi_score()
-        self._update_max_score()
 
     def _update_score(self):
         """Convert the session running score value into a rendered text image panel."""
@@ -72,7 +68,7 @@ class HUD:
         # Align the score panel near the top-right corner, positioned below the Max Score panel
         self.score_rect = self.score_image.get_rect()
         self.score_rect.right = self.boundaries.right - self.padding
-        self.score_rect.top = self.score_rect.bottom + self.padding
+        self.score_rect.top = self.max_score_rect.bottom + 5
 
 
     def _update_max_score(self):
@@ -106,7 +102,7 @@ class HUD:
         # Pin the difficulty tracking layer directly below the player's remaining life indicator row
         self.level_rect = self.level_image.get_rect()
         self.level_rect.left = self.padding
-        self.level_rect.top = self.life_rect.bottom + self.padding
+        self.level_rect.top =  self.padding + 40
 
 
     def _draw_lives(self):

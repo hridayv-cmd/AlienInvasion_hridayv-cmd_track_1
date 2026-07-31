@@ -81,13 +81,13 @@ class AlienInvasion:
 
     def _check_collisions(self):
         """Monitor and resolve all game element overlap intersections."""
-        if self.alien_fleet.check_destroy_status():
-            self._reset_level()
-            self.settings.increase_difficulty()
+        if self.ship.check_collisions(self.alien_fleet.fleet):
+            if self._check_game_status(): 
+                return
         
-        #check collisions for aliens and bottom of screen
         if self.alien_fleet.check_fleet_left():
-            self._check_game_status()
+            if self._check_game_status(): 
+                return
 
         # check collisions of projectiles and aliens
         collisions = self.alien_fleet.check_collisions(self.ship.arsenal.arsenal)
@@ -125,11 +125,13 @@ class AlienInvasion:
             self.game_stats.ship_left -= 1
             self._reset_level()
             sleep(0.5) # Pause briefly so player notices the hit reset
+            return True
         else:
             self.game_active = False
             # Clean up the board on Game Over so the next game starts fresh
             self.ship.arsenal.arsenal.empty()
             self.alien_fleet.fleet.empty()
+            return True
 
       
         
