@@ -149,7 +149,7 @@ class AlienInvasion:
         # Explicitly force the level back to 1 on a fresh restart
         self.game_stats.level = 1
         self.HUD.update_level()
-        
+        self.HUD.update_scores() 
         
         #self.HUD.update_scores()
         self._reset_level()
